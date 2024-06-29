@@ -1,7 +1,7 @@
 variable "environment" {
   description = "The environment type for the resources"
   type        = string
-  default     = "DEV"
+  default     = "dev"
 }
 
 provider "azurerm" {
