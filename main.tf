@@ -9,7 +9,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "example" {
-  name     = "${var.environment}-example-rg-2"
+  name     = "${var.environment}-example-rg-test"
   location = "West Europe"
   tags = {
     environment = var.environment
@@ -17,7 +17,7 @@ resource "azurerm_resource_group" "example" {
 }
 
 resource "azurerm_storage_account" "example" {
-  name                     = "${var.environment}examplestorageacct"
+  name                     = "${var.environment}examplestoragetest"
   resource_group_name      = azurerm_resource_group.example.name
   location                 = azurerm_resource_group.example.location
   account_tier             = "Standard"
@@ -30,7 +30,7 @@ resource "azurerm_storage_account" "example" {
 }
 
 resource "azurerm_key_vault" "example" {
-  name                = "${var.environment}examplekeyvault"
+  name                = "${var.environment}examplekeyvaulttest"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
   tenant_id           = "6df5d9b1-2807-4c12-a223-63909d98a6f2"
@@ -41,7 +41,7 @@ resource "azurerm_key_vault" "example" {
 }
 
 resource "azurerm_service_plan" "example" {
-  name                = "${var.environment}-service-plan"
+  name                = "${var.environment}-service-plan-test"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
   sku_name            = "B1"
@@ -52,7 +52,7 @@ resource "azurerm_service_plan" "example" {
 }
 
 resource "azurerm_windows_web_app" "example" {
-  name                = "${var.environment}-test-app-service"
+  name                = "${var.environment}-app-service-test"
   resource_group_name = azurerm_resource_group.example.name
   location            = azurerm_service_plan.example.location
   service_plan_id     = azurerm_service_plan.example.id
@@ -69,7 +69,7 @@ resource "azurerm_windows_web_app" "example" {
 }
 
 resource "azurerm_application_insights" "example" {
-  name                = "${var.environment}-appinsights"
+  name                = "${var.environment}-appinsights-test"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
   application_type    = "web"
@@ -79,7 +79,7 @@ resource "azurerm_application_insights" "example" {
 }
 
 resource "azurerm_mssql_server" "example" {
-  name                         = "${var.environment}sqlserver"
+  name                         = "${var.environment}sqlserver-test"
   resource_group_name          = azurerm_resource_group.example.name
   location                     = azurerm_resource_group.example.location
   version                      = "12.0"
@@ -91,7 +91,7 @@ resource "azurerm_mssql_server" "example" {
 }
 
 resource "azurerm_mssql_database" "example" {
-  name      = "${var.environment}db"
+  name      = "${var.environment}db-test"
   server_id = azurerm_mssql_server.example.id
   sku_name  = "Basic"
   tags = {
