@@ -3,7 +3,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "example" {
-  name     = "example-resources"
+  name     = "example-rg"
   location = "West Europe"
   tags = {
     dev = "true"
@@ -11,7 +11,7 @@ resource "azurerm_resource_group" "example" {
 }
 
 resource "azurerm_storage_account" "example" {
-  name                     = "examplestorageacct"
+  name                     = "exampleteststorageacct"
   resource_group_name      = azurerm_resource_group.example.name
   location                 = azurerm_resource_group.example.location
   account_tier             = "Standard"
@@ -46,7 +46,7 @@ resource "azurerm_service_plan" "example" {
 }
 
 resource "azurerm_windows_web_app" "example" {
-  name                = "example-app-service"
+  name                = "example-test-app-service"
   resource_group_name = azurerm_resource_group.example.name
   location            = azurerm_service_plan.example.location
   service_plan_id     = azurerm_service_plan.example.id
@@ -73,7 +73,7 @@ resource "azurerm_application_insights" "example" {
 }
 
 resource "azurerm_mssql_server" "example" {
-  name                         = "examplesqlserver"
+  name                         = "exampletestsqlserver"
   resource_group_name          = azurerm_resource_group.example.name
   location                     = azurerm_resource_group.example.location
   version                      = "12.0"
