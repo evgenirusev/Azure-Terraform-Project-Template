@@ -1,17 +1,23 @@
+variable "environment" {
+  description = "The environment type for the resources"
+  type        = string
+  default     = "DEV"
+}
+
 provider "azurerm" {
   features {}
 }
 
 resource "azurerm_resource_group" "example" {
-  name     = "example-rg"
+  name     = "${var.environment}-example-rg-2"
   location = "West Europe"
   tags = {
-    dev = "true"
+    environment = var.environment
   }
 }
 
 resource "azurerm_storage_account" "example" {
-  name                     = "exampleteststorageacct"
+  name                     = "${var.environment}examplestorageacct"
   resource_group_name      = azurerm_resource_group.example.name
   location                 = azurerm_resource_group.example.location
   account_tier             = "Standard"
@@ -19,34 +25,34 @@ resource "azurerm_storage_account" "example" {
   account_kind             = "StorageV2"
   access_tier              = "Hot"
   tags = {
-    dev = "true"
+    environment = var.environment
   }
 }
 
 resource "azurerm_key_vault" "example" {
-  name                        = "examplekeyvault"
-  location                    = azurerm_resource_group.example.location
-  resource_group_name         = azurerm_resource_group.example.name
-  tenant_id                   = "6df5d9b1-2807-4c12-a223-63909d98a6f2"
-  sku_name                    = "standard"
+  name                = "${var.environment}examplekeyvault"
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
+  tenant_id           = "6df5d9b1-2807-4c12-a223-63909d98a6f2"
+  sku_name            = "standard"
   tags = {
-    dev = "true"
+    environment = var.environment
   }
 }
 
-resource "azurerm_service_plan" "example" {  
-  name                = "example-service-plan"
+resource "azurerm_service_plan" "example" {
+  name                = "${var.environment}-service-plan"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
   sku_name            = "B1"
   os_type             = "Linux"
   tags = {
-    dev = "true"
+    environment = var.environment
   }
 }
 
 resource "azurerm_windows_web_app" "example" {
-  name                = "example-test-app-service"
+  name                = "${var.environment}-test-app-service"
   resource_group_name = azurerm_resource_group.example.name
   location            = azurerm_service_plan.example.location
   service_plan_id     = azurerm_service_plan.example.id
@@ -56,39 +62,39 @@ resource "azurerm_windows_web_app" "example" {
   }
   
   tags = {
-    dev = "true"
+    environment = var.environment
   }
 
   site_config {}
 }
 
 resource "azurerm_application_insights" "example" {
-  name                = "example-appinsights"
+  name                = "${var.environment}-appinsights"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
   application_type    = "web"
   tags = {
-    dev = "true"
+    environment = var.environment
   }
 }
 
 resource "azurerm_mssql_server" "example" {
-  name                         = "exampletestsqlserver"
+  name                         = "${var.environment}sqlserver"
   resource_group_name          = azurerm_resource_group.example.name
   location                     = azurerm_resource_group.example.location
   version                      = "12.0"
   administrator_login          = "adminuser"
   administrator_login_password = "H@Sh1CoR3!"
   tags = {
-    dev = "true"
+    environment = var.environment
   }
 }
 
 resource "azurerm_mssql_database" "example" {
-  name      = "exampledb"
+  name      = "${var.environment}db"
   server_id = azurerm_mssql_server.example.id
   sku_name  = "Basic"
   tags = {
-    dev = "true"
+    environment = var.environment
   }
 }
