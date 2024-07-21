@@ -1,11 +1,7 @@
-variable "environment" {
-  description = "The environment type for the resources"
-  type        = string
-  default     = "dev"
-}
-
 provider "azurerm" {
   features {}
+
+  tenant_id = var.tenant_id
 }
 
 resource "azurerm_resource_group" "example" {
@@ -33,7 +29,7 @@ resource "azurerm_key_vault" "example" {
   name                = "${var.environment}examplekeyvaulttest"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
-  tenant_id           = "6df5d9b1-2807-4c12-a223-63909d98a6f2"
+  tenant_id           = var.tenant_id
   sku_name            = "standard"
   tags = {
     environment = var.environment
